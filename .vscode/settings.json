@@ -4,6 +4,7 @@
         "stddef.h": "c",
         "put.h": "c",
         "syscall.h": "c",
-        "unistd_64.h": "c"
+        "unistd_64.h": "c",
+        "sched.h": "c"
     }
 }
