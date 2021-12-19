@@ -6,3 +6,4 @@ arch/riscv/kernel/*.o
 arch/riscv/kernel/*.s
 init/*.o
 lib/*.o
+arch/riscv/boot/image
