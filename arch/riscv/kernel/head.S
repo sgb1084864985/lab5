@@ -64,7 +64,7 @@ clean_loop:
 
 	#set User Mode Ecall delegation
 	li t1, 0x100 # 1 0000 0000
-	csrs mideleg, t1
+	csrs medeleg, t1
 
 	li t1, 0x12a             #0001 0010 1010   初始化mstatus（spp，spie，mie，sie）     
 	csrs mstatus, t1

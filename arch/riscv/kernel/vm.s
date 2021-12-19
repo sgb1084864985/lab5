@@ -631,7 +631,7 @@ initUserPage_vm:
 	.loc 1 14 5 discriminator 3
 	add	a2,s0,s4
 	mv	a1,s0
-	li	a4,7
+	li	a4,15
 	mv	a5,s2
 	li	a3,4096
 	mv	a0,s1
@@ -675,7 +675,7 @@ initUserPage_vm:
 	mv	a2,s3
 	mv	a1,s0
 	mv	a5,s2
-	li	a4,3
+	li	a4,11
 	li	a3,4096
 	mv	a0,s1
 .LBE36:
@@ -925,7 +925,7 @@ cur:
 	.byte	0x1
 	.byte	0x5e
 	.byte	0x1
-	.byte	0x37
+	.byte	0x3f
 	.byte	0xf
 	.byte	0x1
 	.byte	0x5f
@@ -1006,7 +1006,7 @@ cur:
 	.byte	0x1
 	.byte	0x5e
 	.byte	0x1
-	.byte	0x33
+	.byte	0x3b
 	.byte	0xf
 	.byte	0x1
 	.byte	0x5f
@@ -2274,7 +2274,7 @@ cur:
 	.8byte	.LVL73
 	.8byte	.LVL74
 	.2byte	0x2
-	.byte	0x37
+	.byte	0x3f
 	.byte	0x9f
 	.8byte	0
 	.8byte	0
@@ -2349,7 +2349,7 @@ cur:
 	.8byte	.LVL78
 	.8byte	.LVL80
 	.2byte	0x2
-	.byte	0x33
+	.byte	0x3b
 	.byte	0x9f
 	.8byte	0
 	.8byte	0

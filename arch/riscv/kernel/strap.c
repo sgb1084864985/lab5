@@ -24,6 +24,7 @@ void handler_s(size_t cause,size_t sepc,uintptr_t* regs)
 	}
 	else
 	{
+
 		if(cause==8){
 			ecall_handler(regs);
 			return;
@@ -35,6 +36,8 @@ void handler_s(size_t cause,size_t sepc,uintptr_t* regs)
 		puts(", at 0x");
 		putullHex(sepc);
 		puts("\n");
+
+
 		if (cause == 12)
 		{
 			puts("instruction page fault\n");
@@ -56,7 +59,9 @@ void handler_s(size_t cause,size_t sepc,uintptr_t* regs)
 // sys_getpid();
 void ecall_handler(uintptr_t* regs){
 	uint64_t callType=regs[120>>3];
-
+	// puts("call type: ");
+	// putullHex(callType);
+	// puts("\n");
 	switch(callType){
 		case 64:
 			// regs[176>>3]=sys_write(

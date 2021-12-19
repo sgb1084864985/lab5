@@ -3,7 +3,7 @@
 
 int start_kernel()
 {
-	const char *msg = "ZJU OS LAB 4     Student1: 3190101094 朱理真 Student2:3190101931 李兆渊\n";
+	const char *msg = "ZJU OS LAB 5     Student1: 3190101094 朱理真\n";
 	const char *msg_protection_test[2]={
 		"Try to write on rodata section: \n",
 		"Try to execute on data section: \n"

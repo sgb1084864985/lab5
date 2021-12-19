@@ -106,7 +106,21 @@ init_epc:
 	# la t0, main
 	li t0,0
 	csrw sepc, t0
+
+	# 0100 0000 0000 0010 0000
+	#  SUM             SPIE
+	li t1,0x040020 
+	csrs sstatus,t1
+
+	# 0001 0000 0000
+	#   SPP
+	li t2,0x100
+	csrc sstatus,t2
+
 	ecall
+
+	csrrw sp,sscratch,sp
+
 	sret
 
 __switch_to:
@@ -131,8 +145,9 @@ li    a4,  40
 	sd s11,104(a3)
 
 	csrr t1,sepc
+	csrr t2,sscratch
 	sd t1,112(a3)
-	sd sp,120(a3)
+	sd t2,120(a3)
 	
 	#Restore context from next->thread
 	/*your code*/
@@ -151,6 +166,7 @@ li    a4,  40
 	ld s10,96(a4)
 	ld s11,104(a4)
 	ld t1, 112(a4)
+	ld t5, 120(a4)
 	ld t3, 128(a4)
 
 	csrw sepc,t1
@@ -161,6 +177,6 @@ li    a4,  40
 	or t3,t2,t3
 	csrw satp,t3
 	sfence.vma 
-	csrw sscratch,sp
+	csrw sscratch,t5
 	#return to ra
 	ret

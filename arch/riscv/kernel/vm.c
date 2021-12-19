@@ -125,12 +125,12 @@ void initUserPage_vm(uint64_t* pgtbl,uint64_t stack_page_number,uint64_t stack_h
     //user code
     for (uint64_t va = 0; va < 0x80000000; va += PAGE_SIZE)
     {
-        create_mapping_vm(pgtbl, va, 0x84000000 + va, 0x1000, 7);
+        create_mapping_vm(pgtbl, va, 0x84000000 + va, 0x1000, 0xf);
     }
 
     for (uint64_t i=0, va=0xffffffdf80000000-0x1000; i<stack_page_number ; va-=0x1000,i++)
     {
-        create_mapping_vm(pgtbl,va, stack_high_addr-0x1000-offset-i*1000, 0x1000, 3);
+        create_mapping_vm(pgtbl,va, stack_high_addr-0x1000-offset-i*1000, 0x1000, 0xb);
     }
 
     // for (uint64_t pa = 0x10000000; pa < 0x10001000; pa += PAGE_SIZE)

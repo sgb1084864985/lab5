@@ -9,7 +9,7 @@ long COUNTER_INIT_COUNTER[NR_TASKS] = {0, 2, 2, 1, 4};
 
 extern void init_epc(void);
 extern void __switch_to(struct task_struct *current, struct task_struct *next);
-extern void initUserPage_vm(uint64_t* pgtbl,uint64_t stack_page_cnt,int stack_high_addr);
+extern void initUserPage_vm(uint64_t* pgtbl,uint64_t stack_page_cnt,uint64_t stack_high_addr);
 
 extern unsigned int rand();
 extern uint64_t cur;			//获取当前页表已被分配的物理页
@@ -50,7 +50,7 @@ void task_init(void)
 		puts("\n");
 	}
 
-	int cur_user_stack=cur;
+	volatile int cur_user_stack=cur;
 	cur+=4;
 	for(int i=1;i<=LAB_TEST_NUM;i++){
 		cur++;
@@ -62,7 +62,10 @@ void task_init(void)
 			1,
 			((uint64_t)&_end + (cur_user_stack+1) * 0x1000)
 		);
+		uint64_t*p=(void*)(((uint64_t)&_end + (cur_user_stack) * 0x1000));
+		*p=0xffffffff;
 		task[i]->thread.mm=(uint64_t*)((uint64_t)(task[i]->thread.mm)-offset);
+		task[i]->thread.sscratch=0xffffffdf80000000;// user stack
 	}
 	init_finished=1;
 }

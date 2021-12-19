@@ -145,12 +145,12 @@ void initUserPage_vm(unsigned long long* pgtbl,unsigned long long stack_page_num
 
     for (unsigned long long va = 0; va < 0x80000000; va += 0x1000)
     {
-        create_mapping_vm(pgtbl, va, 0x84000000 + va, 0x1000, 7);
+        create_mapping_vm(pgtbl, va, 0x84000000 + va, 0x1000, 0xf);
     }
 
     for (unsigned long long i=0, va=0xffffffdf80000000-0x1000; i<stack_page_number ; va-=0x1000,i++)
     {
-        create_mapping_vm(pgtbl,va, stack_high_addr-0x1000-(0xffffffe000000000-0x80000000)-i*1000, 0x1000, 3);
+        create_mapping_vm(pgtbl,va, stack_high_addr-0x1000-(0xffffffe000000000-0x80000000)-i*1000, 0x1000, 0xb);
     }
 
 
