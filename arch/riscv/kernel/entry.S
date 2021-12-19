@@ -5,6 +5,7 @@
 .globl __switch_to
 .globl init_epc
 .extern handler_s
+.extern start
 
 trap_s:
 	# save sepc and caller-saved registers
@@ -13,6 +14,11 @@ trap_s:
 	/*your code*/
 trap_s:
 	#save callee-saved registers and spec
+	csrrw sp,sscratch,sp
+	bnez sp,hasUserThread1
+	csrrw sp,sscratch,sp
+hasUserThread1:
+
 	addi sp,sp,-248
 	sd x1,240(sp)
 	sd x3,232(sp)
@@ -88,10 +94,17 @@ trap_s:
 	ld x31,8(sp)
 	
 	addi sp,sp,248
+
+	csrrw sp,sscratch,sp
+	bnez sp,hasUserThread2
+	csrrw sp,sscratch,sp
+
+hasUserThread2:
 	sret
 
 init_epc:
-	la t0, dead_loop
+	# la t0, main
+	li t0,0
 	csrw sepc, t0
 	ecall
 	sret
@@ -116,6 +129,11 @@ li    a4,  40
 	sd s9,88(a3)
 	sd s10,96(a3)
 	sd s11,104(a3)
+
+	csrr t1,sepc
+	sd t1,112(a3)
+	sd sp,120(a3)
+	
 	#Restore context from next->thread
 	/*your code*/
 	ld ra,0(a4)
@@ -132,5 +150,17 @@ li    a4,  40
 	ld s9,88(a4)
 	ld s10,96(a4)
 	ld s11,104(a4)
+	ld t1, 112(a4)
+	ld t3, 128(a4)
+
+	csrw sepc,t1
+	csrr t2,satp
+	li t4,0xfffff00000000000
+	and t2,t2,t4
+	srli t3,t3,12
+	or t3,t2,t3
+	csrw satp,t3
+	sfence.vma 
+	csrw sscratch,sp
 	#return to ra
 	ret

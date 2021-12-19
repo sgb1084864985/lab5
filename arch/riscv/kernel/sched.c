@@ -9,9 +9,13 @@ long COUNTER_INIT_COUNTER[NR_TASKS] = {0, 2, 2, 1, 4};
 
 extern void init_epc(void);
 extern void __switch_to(struct task_struct *current, struct task_struct *next);
+extern void initUserPage_vm(uint64_t* pgtbl,uint64_t stack_page_cnt,int stack_high_addr);
+
 extern unsigned int rand();
 extern uint64_t cur;			//获取当前页表已被分配的物理页
 extern unsigned long long _end; //由于开启了MMU, 此时&_end的地址为虚拟地址
+
+int init_finished=0;
 
 void task_init(void)
 {
@@ -32,7 +36,7 @@ void task_init(void)
 	for (int i = 1; i <= LAB_TEST_NUM; ++i)
 	{
 		cur++;
-		task[i] = (struct task_struct *)((uint64_t)&_end + cur * TASK_SIZE);
+		task[i] = (struct task_struct *)((uint64_t)&_end + cur * 0x1000);
 		task[i]->counter = COUNTER_INIT_COUNTER[i];
 		task[i]->priority = PRIORITY_INIT_COUNTER[i];
 		task[i]->pid = i;
@@ -45,10 +49,27 @@ void task_init(void)
 		puti(task[i]->counter);
 		puts("\n");
 	}
+
+	int cur_user_stack=cur;
+	cur+=4;
+	for(int i=1;i<=LAB_TEST_NUM;i++){
+		cur++;
+		cur_user_stack++;
+		task[i]->thread.mm=(unsigned long long *)((uint64_t)&_end + cur * 0x1000);
+
+		initUserPage_vm(
+			task[i]->thread.mm,
+			1,
+			((uint64_t)&_end + (cur_user_stack+1) * 0x1000)
+		);
+		task[i]->thread.mm=(uint64_t*)((uint64_t)(task[i]->thread.mm)-offset);
+	}
+	init_finished=1;
 }
 
 void do_timer(void)
 {
+	if(!init_finished) return;
 	puts("[PID = ");
 	puti(current->pid);
 	puts("] Context Calculation: ");

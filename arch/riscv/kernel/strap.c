@@ -1,7 +1,7 @@
 #include "put.h"
 #include "sched.h"
 #include "stddef.h"
-#include <syscall.h>
+// #include <syscall.h>
 // #include <asm-generic/unistd.h>
 // #include <linux/syscalls.h>
 
@@ -59,14 +59,23 @@ void ecall_handler(uintptr_t* regs){
 
 	switch(callType){
 		case 64:
-			regs[176>>3]=sys_write(
-				regs[176>>3],
-				regs[168>>3],
-				regs[160>>3]
-			);
+			// regs[176>>3]=sys_write(
+			// 	regs[176>>3],
+			// 	regs[168>>3],
+			// 	regs[160>>3]
+			// );
+			if(regs[176>>3]==1){
+				const unsigned char*buf=(const char*)regs[168>>3];
+				size_t cnt=regs[160>>3];
+				for(int i=0;i<cnt;i++){
+					*UART16550A_DR = buf[i];
+				}
+				regs[176>>3]=cnt;
+			}
 			break;
 		case 172:
-			regs[176>>3]=sys_getpid();
+			// regs[176>>3]=sys_getpid();
+			regs[176>>3]=current->pid;
 			break;
 		default: break;
 	}

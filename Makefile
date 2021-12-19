@@ -23,10 +23,10 @@ all:
 	# @make -C user -s
 
 run: all
-	@qemu-system-riscv64 -nographic -machine virt -kernel vmlinux
+	@qemu-system-riscv64 -nographic -machine virt -kernel vmlinux -initrd hello.bin
 
 debug: all
-	@qemu-system-riscv64 -nographic -machine virt -kernel vmlinux -S -s
+	@qemu-system-riscv64 -nographic -machine virt -kernel vmlinux -initrd hello.bin -S -s
 
 clean:
 	@make clean -C init -s

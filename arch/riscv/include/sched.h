@@ -33,6 +33,7 @@ extern struct task_struct *current;
 
 /* 进程指针数组 */
 extern struct task_struct * task[NR_TASKS];
+typedef uint64_t mm_struct;
 
 /* 进程状态段数据结构 */
 struct thread_struct {
@@ -50,6 +51,9 @@ struct thread_struct {
     unsigned long long s9;
     unsigned long long s10;
     unsigned long long s11;
+    unsigned long long sepc;
+    unsigned long long sscratch;
+    mm_struct* mm;
 };
 
 /* 进程数据结构 */
