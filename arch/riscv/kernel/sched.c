@@ -4,8 +4,11 @@
 
 struct task_struct *current;
 struct task_struct *task[NR_TASKS];
-long PRIORITY_INIT_COUNTER[NR_TASKS] = {0, 1, 2, 3, 4};
-long COUNTER_INIT_COUNTER[NR_TASKS] = {0, 2, 2, 1, 4};
+// long PRIORITY_INIT_COUNTER[NR_TASKS] = {0, 1, 2, 3, 4};
+// long COUNTER_INIT_COUNTER[NR_TASKS] = {0, 2, 2, 1, 4};
+
+long PRIORITY_INIT_COUNTER[NR_TASKS] = {5,5,5,5,5};
+long COUNTER_INIT_COUNTER[NR_TASKS] = {5,5,5,5,5};
 
 extern void init_epc(void);
 extern void __switch_to(struct task_struct *current, struct task_struct *next);
@@ -73,12 +76,12 @@ void task_init(void)
 void do_timer(void)
 {
 	if(!init_finished) return;
-	puts("[PID = ");
-	puti(current->pid);
-	puts("] Context Calculation: ");
-	puts("counter = ");
-	puti(current->counter);
-	puts("\n");
+	// puts("[PID = ");
+	// puti(current->pid);
+	// puts("] Context Calculation: ");
+	// puts("counter = ");
+	// puti(current->counter);
+	// puts("\n");
 
 	current->counter--;
 	if (current->counter <= 0)

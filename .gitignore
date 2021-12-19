@@ -1,2 +1,8 @@
 .vscode/
-.vscode/settings.json
+System.map
+vmlinux
+arch/riscv/kernel/*.i
+arch/riscv/kernel/*.o
+arch/riscv/kernel/*.s
+init/*.o
+lib/*.o
