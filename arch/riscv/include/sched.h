@@ -53,7 +53,7 @@ struct thread_struct {
     unsigned long long s11;
     unsigned long long sepc;
     unsigned long long sscratch;
-    mm_struct* mm;
+    mm_struct* mm;// mm 表示为根页表地址，后续可根据需求更改
 };
 
 /* 进程数据结构 */

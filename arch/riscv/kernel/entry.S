@@ -8,13 +8,12 @@
 .extern start
 
 trap_s:
-	# save sepc and caller-saved registers
-	# call handler(scause)
-	# load sepc and caller-saved registers
 	/*your code*/
-trap_s:
 	#save callee-saved registers and spec
 	csrrw sp,sscratch,sp
+	# task 0's sscrach=0,
+	# and it doesn't need to exchange sp
+	# and sscratch. 
 	bnez sp,hasUserThread1
 	csrrw sp,sscratch,sp
 hasUserThread1:

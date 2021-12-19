@@ -54,7 +54,7 @@ void task_init(void)
 	}
 
 	volatile int cur_user_stack=cur;
-	cur+=4;
+	cur+=4;// 4 page are for user stacks, one page per user.
 	for(int i=1;i<=LAB_TEST_NUM;i++){
 		cur++;
 		cur_user_stack++;
@@ -65,8 +65,7 @@ void task_init(void)
 			1,
 			((uint64_t)&_end + (cur_user_stack+1) * 0x1000)
 		);
-		uint64_t*p=(void*)(((uint64_t)&_end + (cur_user_stack) * 0x1000));
-		*p=0xffffffff;
+		
 		task[i]->thread.mm=(uint64_t*)((uint64_t)(task[i]->thread.mm)-offset);
 		task[i]->thread.sscratch=0xffffffdf80000000;// user stack
 	}
@@ -144,16 +143,18 @@ void schedule(void)
 	{
 		puts("[!] Switch from task ");
 		puti(current->pid);
-		puts(" [task struct: ");
+		// puts(" [task struct: ");
+		puts(" [");
 		putullHex((uint64_t)current);
-		puts(", sp: ");
-		putullHex(current->thread.sp);
+		// puts(", sp: ");
+		// putullHex(current->thread.sp);
 		puts("] to task ");
 		puti(task[next]->pid);
-		puts(" [task struct: ");
+		// puts(" [task struct: ");
+		puts(" [");
 		putullHex((uint64_t)task[next]);
-		puts(", sp: ");
-		putullHex(task[next]->thread.sp);
+		// puts(", sp: ");
+		// putullHex(task[next]->thread.sp);
 		puts("], prio: ");
 		puti(task[next]->priority);
 		puts(", counter: ");
